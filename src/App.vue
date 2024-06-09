@@ -16,11 +16,18 @@
           <li class="nav-item" v-if="!$root.store.username">
             <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
           </li>
-          <li class="nav-item" v-if="!$root.store.username">
-            <router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
+          <li class="nav-item" v-if="$root.store.username">
+            <b-dropdown text="Dropdown button">
+              <b-dropdown-item href="#">Favorites</b-dropdown-item>
+              <b-dropdown-item href="#">My Recipes</b-dropdown-item>
+              <b-dropdown-item href="#">My Family's Recipes</b-dropdown-item>
+            </b-dropdown>
           </li>
-          <li class="nav-item" v-else>
+          <li class="nav-item" v-if="$root.store.username">
             {{ $root.store.username }}: <button class="btn btn-link nav-link" @click="Logout">Logout</button>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -34,8 +41,14 @@
 </template>
 
 <script>
+import { BDropdown, BDropdownItem } from 'bootstrap-vue';
+
 export default {
   name: "App",
+  components: {
+    BDropdown,
+    BDropdownItem
+  },
   methods: {
     Logout() {
       this.$root.store.logout();
