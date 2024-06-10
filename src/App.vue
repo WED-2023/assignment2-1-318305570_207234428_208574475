@@ -5,10 +5,13 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <router-link class="navbar-brand" :to="{ name: 'main' }">Vue Recipes</router-link>
+        <router-link class="navbar-brand" :to="{ name: 'main' }">Home</router-link>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0 align-items-center">
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'search' }">Search</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
           </li>
           <li class="nav-item" v-if="!$root.store.username">
             Hello Guest: <router-link class="nav-link d-inline" :to="{ name: 'register' }">Register</router-link>
@@ -17,17 +20,20 @@
             <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
           </li>
           <li class="nav-item" v-if="$root.store.username">
-            <b-dropdown text="Dropdown button">
+            <b-dropdown text="Personal">
               <b-dropdown-item href="#">Favorites</b-dropdown-item>
               <b-dropdown-item href="#">My Recipes</b-dropdown-item>
               <b-dropdown-item href="#">My Family's Recipes</b-dropdown-item>
             </b-dropdown>
           </li>
           <li class="nav-item" v-if="$root.store.username">
-            {{ $root.store.username }}: <button class="btn btn-link nav-link" @click="Logout">Logout</button>
+            <router-link class="nav-link" :to="{ name: 'newRecipe' }">New Recipe</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
+          <li class="nav-item" v-if="$root.store.username">
+            {{ $root.store.username }}:
+          </li>
+          <li class="nav-item" v-if="$root.store.username">
+            <button class="btn btn-link nav-link" @click="Logout">Logout</button>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -74,8 +80,10 @@ export default {
 }
 
 .nav-item {
+  margin: 0.9%;
   font-weight: bold;
   color: #8e9498;
+  white-space: nowrap;
 }
 
 .nav-link {
