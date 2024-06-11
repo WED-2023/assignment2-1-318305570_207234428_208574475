@@ -41,8 +41,8 @@
         variant="primary"
         style="width:100px;display:block;"
         class="mx-auto w-100"
-        >Login</b-button
-      >
+        >Login
+      </b-button>
       <div class="mt-2">
         Do not have an account yet?
         <router-link to="register"> Register in here</router-link>
@@ -105,8 +105,8 @@ export default {
         //   }
         // );
 
-        const success = true; // modify this to test the error handling
-        const response = mockLogin(this.form.username, this.form.password, success);
+        const success = false; // modify this to test the error handling
+        const response = mockLogin({ username: this.form.username, password: this.form.password }, success);
 
         // console.log(response);
         // this.$root.loggedIn = true;
