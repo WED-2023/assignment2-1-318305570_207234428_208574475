@@ -9,7 +9,26 @@ export function mockGetRecipesPreview(amount = 1) {
   return { data: { recipes: selected } };
 }
 
-export function mockGetRecipeFullDetails(recipeId) {
-    return { data: { recipe: recipe_full_view } } ;
-  }
+// export function mockGetRecipeFullDetails(recipeId) {
+//     return { data: { recipe: recipe_full_view } } ;
+//   }
   
+
+// Function to find a recipe by ID in the mock data
+function findRecipeById(recipeId) {
+  return recipe_full_view.find(recipe => recipe.id === recipeId);
+}
+
+// Mock function to get full recipe details by ID
+export function mockGetRecipeFullDetails(recipeId) {
+  const recipe = findRecipeById(recipeId);
+
+  if (!recipe) {
+    return {
+      status: 404, // Simulate Not Found error
+      data: null
+    };
+  }
+
+  return { data: { recipe: recipe } } ;
+}
