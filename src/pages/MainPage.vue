@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <div class="column-left">
-      <RecipePreviewList title="Start cooking" :key="randomRecipesKey" />
+      <RecipePreviewList title="Explore this recipes" :key="randomRecipesKey" />
       <b-button variant="primary" class="new-recipes-button" @click="refreshRandomRecipes">New Random Recipes</b-button>
     </div>
     <div class="column-right">
@@ -10,8 +10,6 @@
       </div>
       <div v-else>
         <LoginPage />
-        <!-- <p>You need to login to view this section</p> -->
-        <!-- <router-link to="/login" class="btn btn-primary">Login</router-link> -->
       </div>
     </div>
   </div>
