@@ -15,21 +15,30 @@
 <script>
 import RecipePreview from "./RecipePreview.vue";
 import { mockGetRecipesPreview } from "../services/recipes.js";
+
 export default {
   name: "RecipePreviewList",
   components: {
-    RecipePreview
+    RecipePreview,
   },
   props: {
     title: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      recipes: []
+      recipes: [],
     };
+  },
+  watch: {
+    $props: {
+      handler() {
+        this.updateRecipes();
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.updateRecipes();
@@ -40,21 +49,16 @@ export default {
         // const response = await this.axios.get(
         //   this.$root.store.server_domain + "/recipes/random",
         // );
-
-        const amountToFetch = 5; // Set this to how many recipes you want to fetch
+        const amountToFetch = 3; // Set this to how many recipes you want to fetch
         const response = mockGetRecipesPreview(amountToFetch);
 
-
-        console.log(response);
         const recipes = response.data.recipes;
-        console.log(recipes);
-        this.recipes = [];
-        this.recipes.push(...recipes);
+        this.recipes = recipes;
       } catch (error) {
-        console.log(error);
+        console.error('Error fetching recipes:', error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

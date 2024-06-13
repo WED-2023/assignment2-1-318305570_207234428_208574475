@@ -1,45 +1,74 @@
 <template>
-  <div class="container">
-    <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" />
-    <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
-    {{ !$root.store.username }}
-    <RecipePreviewList
-      title="Last Viewed Recipes"
-      :class="{
-        RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true
-      }"
-      disabled
-    ></RecipePreviewList>
-    <!-- <div
-      style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
-    >
-      Centeredasdasdad
-    </div>-->
+  <div class="main-container">
+    <div class="column-left">
+      <RecipePreviewList title="Start cooking" :key="randomRecipesKey" />
+      <b-button variant="primary" class="new-recipes-button" @click="refreshRandomRecipes">New Random Recipes</b-button>
+    </div>
+    <div class="column-right">
+      <div v-if="$root.store.username">
+        <RecipePreviewList title="Last Viewed Recipes" :recipes="lastViewedRecipes" />
+      </div>
+      <div v-else>
+        <LoginPage />
+        <!-- <p>You need to login to view this section</p> -->
+        <!-- <router-link to="/login" class="btn btn-primary">Login</router-link> -->
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
+import LoginPage from "../pages/LoginPage.vue";
+
+
 export default {
   components: {
-    RecipePreviewList
-  }
+    RecipePreviewList,
+    LoginPage
+  },
+  data() {
+    return {
+      randomRecipesKey: 0,
+      lastViewedRecipes: [],
+    };
+  },
+  mounted() {
+    this.fetchLastViewedRecipes();
+  },
+  methods: {
+    refreshRandomRecipes() {
+      this.randomRecipesKey += 1;
+    },
+    async fetchLastViewedRecipes() {
+      try {
+        // Replace with your API call to get last viewed recipes
+        const response = await fetch('https://your-api-endpoint.com/last-viewed-recipes');
+        this.lastViewedRecipes = await response.json();
+      } catch (error) {
+        console.error('Error fetching last viewed recipes:', error);
+      }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.RandomRecipes {
-  margin: 10px 0 10px;
+.main-container {
+  display: flex;
+  justify-content: space-between;
 }
-.blur {
-  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
-  filter: blur(2px);
+
+.column-left, .column-right {
+  width: 48%;
 }
-::v-deep .blur .recipe-preview {
-  pointer-events: none;
-  cursor: default;
+
+.column-left h2, .column-right h2 {
+  text-align: center;
+}
+
+.new-recipes-button {
+  display: block;
+  margin: 20px auto;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="login_container">
     <h1 class="title">Login</h1>
     <b-form @submit.prevent="onLogin">
       <b-form-group
@@ -105,7 +105,7 @@ export default {
         //   }
         // );
 
-        const success = false; // modify this to test the error handling
+        const success = true; // modify this to test the error handling
         const response = mockLogin({ username: this.form.username, password: this.form.password }, success);
 
         // console.log(response);

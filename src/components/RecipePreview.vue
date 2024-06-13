@@ -4,7 +4,7 @@
     class="recipe-preview"
   >
     <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+      <img :src="recipe.image" class="recipe-image" />
     </div>
     <div class="recipe-footer">
       <div :title="recipe.title" class="recipe-title">
@@ -20,14 +20,14 @@
 
 <script>
 export default {
-  mounted() {
-    this.axios.get(this.recipe.image).then((i) => {
-      this.image_load = true;
-    });
-  },
+  // mounted() {
+  //   this.axios.get(this.recipe.image).then((i) => {
+  //     this.image_load = true;
+  //   });
+  // },
   data() {
     return {
-      image_load: false
+      // image_load: false
     };
   },
   props: {
@@ -73,7 +73,7 @@ export default {
 }
 .recipe-preview > .recipe-body {
   width: 100%;
-  height: 200px;
+  height: auto;
   position: relative;
 }
 
@@ -83,7 +83,7 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
   display: block;
-  width: 98%;
+  width: 350px;
   height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -92,7 +92,7 @@ export default {
 
 .recipe-preview .recipe-footer {
   width: 100%;
-  height: 50%;
+  height: auto;
   overflow: hidden;
 }
 
