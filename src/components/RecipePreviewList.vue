@@ -26,6 +26,10 @@ export default {
       type: String,
       required: true,
     },
+    amountToFetch: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -49,8 +53,7 @@ export default {
         // const response = await this.axios.get(
         //   this.$root.store.server_domain + "/recipes/random",
         // );
-        const amountToFetch = 3; // Set this to how many recipes you want to fetch
-        const response = mockGetRecipesPreview(amountToFetch);
+        const response = mockGetRecipesPreview(this.amountToFetch);
 
         const recipes = response.data.recipes;
         this.recipes = recipes;
