@@ -24,6 +24,11 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  
+  // adding some functionality to the "crete new recipe" - check if ok
+
+  BootstrapVue, 
+  IconsPlugin
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -36,6 +41,10 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+
+  // adding some functionality to the "crete new recipe" - check if ok
+  BootstrapVue, 
+  IconsPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
