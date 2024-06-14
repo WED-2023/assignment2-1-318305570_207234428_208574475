@@ -17,7 +17,7 @@
         "title": "Grated Tomato and Miso-Butter Pasta",
         "readyInMinutes": 25,
         "aggregateLikes": 50,
-        "vegetarian": false,
+        "vegetarian": true,
         "vegan": false,
         "glutenFree": false,
         "summary": "It turns out that the best no-cook pasta sauce…is a little bit cooked. There’s a reason classic marinara takes an hour on the stove, or tomato paste (itself a long-cooked and deeply concentrated tomato product) is such a beloved sauce ingredient—tomatoes are simply better when their bright, acidic sweetness hangs out in a hot pan for a while. But peak summer tomatoes are close to perfect straight from the farmers market, and the last thing I want to do on a hot evening is spend hours stirring a bubbling pot of sauce. So to get the best of both worlds, we’re making a deeply savory tomato pasta that’s extremely fast and almost no-cook.</a>."
@@ -29,7 +29,7 @@
         "title": "Sour Cherry Cheesecake",
         "readyInMinutes": 50,
         "aggregateLikes": 72,
-        "vegetarian": false,
+        "vegetarian": true,
         "vegan": false,
         "glutenFree": false,
         "summary": "In her cookbook, Ripe Figs: Recipes and Stories from Turkey, Greece, and Cyprus, author Yasmin Khan celebrates the sharp, tangy cherry—a prized fruit in Turkey—by pairing it with a cake of baked yogurt and cream cheese. She uses frozen sour cherries for this recipe (they’re pitted, which saves time), but you can use fresh ones when they’re in season. To avoid a cracked cheesecake, don’t overwork the cream cheese mixture; be sure to line the baking pan; bake it slowly (if you know your oven runs hot, you can drop the temperature 25 degrees); and let the cheesecake cool gradually.</a>."
