@@ -3,9 +3,15 @@ import recipe_full_view from "../assets/mocks/recipe_full_view.json";
 import recipe_previews from "../assets/mocks/recipe_preview.json";
 
 
-export function mockGetRecipesPreview(amount = 1) {
-  const shuffled = recipe_previews.sort(() => 0.5 - Math.random()); // Shuffle the array
-  const selected = shuffled.slice(0, amount); // Get sub-array of first n elements after shuffle
+export function mockGetRecipesPreview(amount = 0) {
+  // If amount is greater than the length of recipe_previews, duplicate recipes
+  const timesToRepeat = Math.ceil(amount / recipe_previews.length);
+  const extendedRecipes = Array(timesToRepeat).fill(recipe_previews).flat();
+
+  // Shuffle the array and select the required amount
+  const shuffled = extendedRecipes.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, amount);
+  
   return { data: { recipes: selected } };
 }
 

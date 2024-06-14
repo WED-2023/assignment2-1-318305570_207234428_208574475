@@ -1,12 +1,12 @@
 <template>
   <div class="main-container">
     <div class="column-left">
-      <RecipePreviewList title="Explore this recipes" :key="randomRecipesKey" />
+      <RecipePreviewList title="Explore this recipes" :amountToFetch="3" :key="randomRecipesKey" />
       <b-button variant="primary" class="new-recipes-button" @click="refreshRandomRecipes">New Random Recipes</b-button>
     </div>
     <div class="column-right">
       <div v-if="$root.store.username">
-        <RecipePreviewList title="Last Viewed Recipes" :recipes="lastViewedRecipes" />
+        <RecipePreviewList title="Last Viewed Recipes" :amountToFetch="3" :recipes="lastViewedRecipes" />
       </div>
       <div v-else>
         <LoginPage />
@@ -18,7 +18,6 @@
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
 import LoginPage from "../pages/LoginPage.vue";
-
 
 export default {
   components: {
