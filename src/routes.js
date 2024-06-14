@@ -33,9 +33,9 @@ const routes = [
     component: () => import("./pages/AboutPage"),
   },
   {
-    path: "/newRecipe",
-    name: "newRecipe",
-    component: () => import("./pages/NewRecipePage"),
+    path: "/my-recipes",
+    name: "myRecipes",
+    component: () => import("./pages/MyRecipes"),
   },
   {
     path: "*",

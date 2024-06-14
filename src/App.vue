@@ -22,12 +22,12 @@
           <li class="nav-item" v-if="$root.store.username">
             <b-dropdown text="Personal">
               <b-dropdown-item href="#">Favorites</b-dropdown-item>
-              <b-dropdown-item href="#">My Recipes</b-dropdown-item>
+              <b-dropdown-item><router-link :to="{ name: 'myRecipes' }">My Recipes</router-link></b-dropdown-item>
               <b-dropdown-item href="#">My Family's Recipes</b-dropdown-item>
             </b-dropdown>
           </li>
           <li class="nav-item" v-if="$root.store.username">
-            <router-link class="nav-link" :to="{ name: 'newRecipe' }">New Recipe</router-link>
+            <button class="btn btn-link nav-link" @click="showCreateRecipeModal">New Recipe</button>
           </li>
           <li class="nav-item" v-if="$root.store.username">
             {{ $root.store.username }}:
@@ -43,19 +43,29 @@
       </div>
     </nav>
     <router-view />
+    <CreateRecipe ref="createRecipeModal" @recipe-saved="addRecipeToMyRecipes" />
   </div>
 </template>
 
+
 <script>
 import { BDropdown, BDropdownItem } from 'bootstrap-vue';
+import CreateRecipe from './components/CreateRecipe.vue'; // Import the CreateRecipe component
 
 export default {
   name: "App",
   components: {
     BDropdown,
-    BDropdownItem
+    BDropdownItem,
+    CreateRecipe // Register the CreateRecipe component
   },
   methods: {
+    showCreateRecipeModal() {
+      this.$refs.createRecipeModal.$bvModal.show('recipe-modal'); // Use the reference to show the modal
+    },
+    addRecipeToMyRecipes(recipeDetails) {
+      this.$root.$emit('new-recipe-added', recipeDetails);
+    },
     Logout() {
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");

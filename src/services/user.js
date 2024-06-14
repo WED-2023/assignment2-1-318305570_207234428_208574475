@@ -8,6 +8,7 @@ import recipe_preview from "../assets/mocks/recipe_preview.json";
   }
   
   export function mockAddUserRecipe(recipeDetails) {
+    console.log("Entered into: mockAddUserRecipe")
     return { status: 200, response: { data: { message: "The Recipe successfully added to My Recipes", success: true}} };
 
   }
