@@ -43,7 +43,7 @@
    
   </div> 
 </template>
-  
+
 <script>
 import { mockAddUserRecipe } from '../services/user';
 
@@ -68,7 +68,8 @@ export default {
       if (response.status === 200 && response.response.data.success) {
         // Emit an event to notify parent about the new recipe
         console.log('Emitting new-recipe-added event:', this.recipeDetails);
-        this.$root.$emit('new-recipe-added', this.recipeDetails);
+        //this.$root.$emit('new-recipe-added', this.recipeDetails);
+        this.$emit('recipe-saved', this.recipeDetails); // Emit event here
         
         // Reset the form
         this.recipeDetails = {

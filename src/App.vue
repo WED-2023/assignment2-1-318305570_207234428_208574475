@@ -43,7 +43,10 @@
       </div>
     </nav>
     <router-view />
+
+    <!-- CreateRecipe Component -->
     <CreateRecipe ref="createRecipeModal" @recipe-saved="addRecipeToMyRecipes" />
+    
   </div>
 </template>
 
