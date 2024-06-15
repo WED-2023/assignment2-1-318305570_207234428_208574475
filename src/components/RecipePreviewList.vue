@@ -30,6 +30,14 @@ export default {
       type: Number,
       required: true,
     },
+
+    //chat gpt add:
+    userName: {
+      type: String,
+      required: false,
+      default: ''
+    }
+
   },
   data() {
     return {
@@ -53,7 +61,8 @@ export default {
         // const response = await this.axios.get(
         //   this.$root.store.server_domain + "/recipes/random",
         // );
-        const response = mockGetRecipesPreview(this.amountToFetch);
+        //const response = mockGetRecipesPreview(this.amountToFetch);
+        const response = mockGetRecipesPreview(this.amountToFetch, this.userName);
 
         const recipes = response.data.recipes;
         this.recipes = recipes;
