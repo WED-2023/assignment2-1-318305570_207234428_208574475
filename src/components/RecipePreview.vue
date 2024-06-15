@@ -8,36 +8,50 @@
         <div :title="recipe.title" class="recipe-title">
           {{ recipe.title }}
         </div>
+        <div class="dietary-icons">
+          <img v-if="recipe.vegan" src="@/assets/vegan.png" class="icon" alt="Vegan" />
+          <img v-if="recipe.vegetarian" src="@/assets/vegetarian.png" class="icon" alt="Vegetarian" />
+          <img v-if="recipe.glutenFree" src="@/assets/gluten-free.png" class="icon" alt="Gluten-Free" />
+        </div>
         <div class="recipe-overview">
           <div class="time">
-            <b-icon-clock></b-icon-clock>
+            <b-icon-clock class="clock-icon"></b-icon-clock>
             {{ recipe.readyInMinutes }} minutes
           </div>
           <div class="likes">
             <b-button @click.prevent="likeClicked" variant="outline" class="mb-2">
               <b-icon :icon="like_clicked ? 'heart-fill' : 'heart'" aria-hidden="true"></b-icon>
             </b-button>
-            {{ like_clicked ? recipe.aggregateLikes + 1 : recipe.aggregateLikes }} likes
+            <span class="like-text">{{ like_clicked ? recipe.aggregateLikes + 1 : recipe.aggregateLikes }} likes</span>
           </div>
-        </div>
-        <div class="dietary-icons">
-          <img v-if="recipe.vegan" src="@/assets/vegan.png" class="icon" alt="Vegan" />
-          <img v-if="recipe.vegetarian" src="@/assets/vegetarian.png" class="icon" alt="Vegetarian" />
-          <img v-if="recipe.glutenFree" src="@/assets/gluten-free.png" class="icon" alt="Gluten-Free" />
         </div>
       </div>
     </router-link>
+
+    <div class="bottom-right">
+      <b-toast v-model="toastShow" :auto-hide-delay="5000" no-close-button>
+        {{ toastMessage }}
+        <b-button @click="dismissToast" variant="outline-secondary" size="sm">Close</b-button>
+      </b-toast>
+    </div>
   </div>
 </template>
 
 <script>
-import { BootstrapVueIcons } from 'bootstrap-vue';
+import { BToast } from 'bootstrap-vue';
+import {mockAddFavorite} from '../services/user';
+
 
 export default {
   name: 'DietaryIcons',
+  components: {
+    BToast,
+  },
   data() {
     return {
-      like_clicked: false
+      like_clicked: false,
+      toastShow: false,
+      toastMessage: '',
     };
   },
   props: {
@@ -49,6 +63,12 @@ export default {
   methods: {
     likeClicked() {
       this.like_clicked = !this.like_clicked;
+      const response = mockAddFavorite(this.recipe.id);
+      this.toastMessage = response.response.data.message;
+      this.toastShow = true;
+    },
+    dismissToast() {
+      this.toastShow = false;
     }
   }
 };
@@ -57,7 +77,8 @@ export default {
 <style scoped>
 .recipe-preview {
   display: inline-block;
-  width: 90%;
+  width: 500px;
+  height: 350px;
   margin: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -94,13 +115,15 @@ export default {
   font-size: 13pt;
   font-weight: bold;
   margin-bottom: 10px;
-  white-space: nowrap;
+  word-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #504f4f;
 }
 
 .recipe-overview {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   list-style: none;
   padding: 0;
@@ -109,14 +132,42 @@ export default {
   color: #555;
 }
 
-.recipe-overview li {
+
+.recipe-overview .time,
+.recipe-overview .likes,
+.recipe-overview .dietary-icons {
   display: flex;
   align-items: center;
 }
 
-#icons{
-  width: 8%;
-  height: 8%;
+.recipe-overview .dietary-icons {
+  margin-right: auto;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
   object-fit: cover;
+}
+
+.clock-icon {
+  margin-right: 5px; 
+}
+
+.likes {
+  display: flex;
+  align-items: center;
+}
+
+.likes .like-text {
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+.bottom-right {
+  position: fixed;
+  margin-top: 20%;
+  right: 100%;
 }
 </style>
