@@ -3,7 +3,7 @@ import recipe_full_view from "../assets/mocks/recipe_full_view.json";
 import recipe_previews from "../assets/mocks/recipe_preview.json";
 
 
-export function mockGetRecipesPreview(amount = 0) {
+export function mockGetRecipesPreview(amount = 0, userName = "") {
   // If amount is greater than the length of recipe_previews, duplicate recipes
   const timesToRepeat = Math.ceil(amount / recipe_previews.length);
   const extendedRecipes = Array(timesToRepeat).fill(recipe_previews).flat();

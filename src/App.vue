@@ -21,9 +21,9 @@
           </li>
           <li class="nav-item" v-if="$root.store.username">
             <b-dropdown text="Personal">
-              <b-dropdown-item href="#">Favorites</b-dropdown-item>
-              <b-dropdown-item><router-link :to="{ name: 'myRecipes' }">My Recipes</router-link></b-dropdown-item>
-              <b-dropdown-item href="#">My Family's Recipes</b-dropdown-item>
+              <b-dropdown-item :to="{ name: 'myFavoriteRecipes' }">My Favorite Recipes</b-dropdown-item>
+              <b-dropdown-item :to="{ name: 'myRecipes' }">My Recipes</b-dropdown-item>
+              <b-dropdown-item>My Family's Recipes</b-dropdown-item>
             </b-dropdown>
           </li>
           <li class="nav-item" v-if="$root.store.username">
@@ -46,7 +46,6 @@
 
     <!-- CreateRecipe Component -->
     <CreateRecipe ref="createRecipeModal" @recipe-saved="addRecipeToMyRecipes" />
-    
   </div>
 </template>
 
@@ -74,7 +73,7 @@ export default {
       this.$root.toast("Logout", "User logged out successfully", "success");
 
       this.$router.push("/").catch(() => {
-        this.$forceUpdate();
+       // this.$forceUpdate();
       });
     }
   }

@@ -1,6 +1,52 @@
+<template>
+  <div>
+    <h2>My Recipes</h2>
+    <RecipePreviewList :title="'My Recipes'" :amountToFetch="amountToFetch" :userName="$root.store.username" />
+  </div>
+</template>
+
+<script>
+import RecipePreviewList from '../components/RecipePreviewList.vue';
+
+export default {
+  name: 'MyRecipes',
+  components: {
+    RecipePreviewList
+  },
+  data() {
+    return {
+      amountToFetch: 0
+    };
+  },
+  created() {
+    this.$root.$on('new-recipe-added', this.incrementAmountToFetch);
+    this.loadInitialRecipes();
+  },
+  methods: {
+    incrementAmountToFetch() {
+      this.amountToFetch++;
+    },
+    loadInitialRecipes() {
+      // Simulate fetching the initial number of recipes
+      // This can be from a mock function or simply set to a default value
+      this.amountToFetch = 0; // Set initial amount to 0 or fetch from mock service
+    }
+  },
+  beforeDestroy() {
+    this.$root.$off('new-recipe-added', this.incrementAmountToFetch);
+  }
+};
+</script>
+
+<style scoped>
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+</style>
+
  
- 
- <template>
+ <!-- <template>
     <div>
       <h2>My Recipes</h2>
       <div v-for="recipe in recipes" :key="recipe.title">
@@ -50,51 +96,5 @@
   
   <style scoped>
   /* Add your styles here */
-  </style>
-   
-<!-- <template>
-  <div>
-    <h2>My Recipes</h2>
-    <RecipePreviewList :recipes="recipes" title="My Recipes" :amountToFetch="recipes.length" />
-  </div>
-</template>
-
-<script>
-import RecipePreviewList from '../components/RecipePreviewList.vue';
-
-export default {
-  components: {
-    RecipePreviewList
-  },
-  data() {
-    return {
-      recipes: []
-    };
-  },
-  created() {
-    this.$root.$on('new-recipe-added', this.addRecipe);
-    this.loadRecipesFromJSON();
-  },
-  methods: {
-    addRecipe(recipeDetails) {
-      this.recipes.push(recipeDetails);
-    },
-    loadRecipesFromJSON() {
-      try {
-        const recipes = require('../assets/mocks/recipe_full_view.json');
-        this.recipes = recipes.recipes;
-      } catch (error) {
-        console.error('Error loading recipes from JSON:', error);
-      }
-    }
-  },
-  beforeDestroy() {
-    this.$root.$off('new-recipe-added', this.addRecipe);
-  }
-};
-</script>
-
-<style scoped>
-/* Add your styles here */
-</style>
- -->
+  </style> -->
+  
