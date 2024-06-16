@@ -22,13 +22,14 @@ export function mockGetRecipesPreview(amount = 0, userName = "") {
 
 // Function to find a recipe by ID in the mock data
 function findRecipeById(recipeId) {
+  console.log("recipe_full_view", typeof recipe_full_view[0].id)
+  console.log("recipeId", typeof recipeId)
   return recipe_full_view.find(recipe => recipe.id === recipeId);
 }
 
 // Mock function to get full recipe details by ID
 export function mockGetRecipeFullDetails(recipeId) {
   const recipe = findRecipeById(recipeId);
-
   if (!recipe) {
     return {
       status: 404, // Simulate Not Found error
@@ -36,6 +37,9 @@ export function mockGetRecipeFullDetails(recipeId) {
     };
   }
 
-  return { data: { recipe: recipe } } ;
+  return {
+    status: 200,
+    data: { recipe }
+  };
 }
 

@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkassignment_2_1"]=self["webpackChunkassignment_2_1"]||[]).push([[396],{3396:(e,t,s)=>{s.r(t),s.d(t,{default:()=>u});var i=function(){var e=this,t=e._self._c;return t("div",[t("h2",[e._v("My Favorite Recipes")]),t("RecipePreviewList",{attrs:{title:"Favorite Recipes",amountToFetch:4}})],1)},n=[],a=s(1466);const c={name:"MyFavoriteRecipes",components:{RecipePreviewList:a.Z}},r=c;var o=s(1001),p=(0,o.Z)(r,i,n,!1,null,"10a96b8f",null);const u=p.exports}}]);
+//# sourceMappingURL=396.60263a5d.js.map
