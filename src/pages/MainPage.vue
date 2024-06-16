@@ -40,10 +40,10 @@ export default {
     async fetchLastViewedRecipes() {
       try {
         // Replace with your API call to get last viewed recipes
-        const response = await fetch('https://your-api-endpoint.com/last-viewed-recipes');
-        this.lastViewedRecipes = await response.json();
+        // const response = await fetch('https://your-api-endpoint.com/last-viewed-recipes');
+        // this.lastViewedRecipes = await response.json();
       } catch (error) {
-        console.error('Error fetching last viewed recipes:', error);
+        // console.error('Error fetching last viewed recipes:', error);
       }
     },
   },
