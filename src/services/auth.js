@@ -12,7 +12,7 @@
   }
   
 
-  export function mockRegister(userDetails, success = false) {
+  export function mockRegister(userDetails, success = true) {
 
     if (!success) {
       throw { status: 409, response: { data: { message: "Username taken", success: false } } };
