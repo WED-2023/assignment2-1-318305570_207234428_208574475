@@ -20,7 +20,7 @@
             <b-dropdown text="Personal" right>
               <b-dropdown-item :to="{ name: 'myFavoriteRecipes' }">My Favorite Recipes <b-icon icon="heart" scale="0.75"></b-icon></b-dropdown-item>
               <b-dropdown-item :to="{ name: 'myRecipes' }">My Recipes</b-dropdown-item>
-              <b-dropdown-item>My Family's Recipes</b-dropdown-item>
+              <b-dropdown-item :to="{ name: 'myFamilyRecipes' }">My Family's Recipes</b-dropdown-item> 
             </b-dropdown>
           </li>
         </ul>
