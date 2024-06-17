@@ -5,7 +5,7 @@
         <img :src="recipe.image" class="recipe-image" />
       </div>
       <div class="recipe-footer">
-        <div :title="recipe.title" class="recipe-title">
+        <div :title="recipe.title" class="recipe-title" :style="{ color: recipe.clicked ? 'blue' : '' }">
           {{ recipe.title }}
         </div>
         <div class="dietary-icons">
@@ -39,8 +39,7 @@
 
 <script>
 import { BToast } from 'bootstrap-vue';
-import {mockAddFavorite} from '../services/user';
-
+import { mockAddFavorite } from '../services/user';
 
 export default {
   name: 'DietaryIcons',
@@ -81,7 +80,7 @@ export default {
   height: 350px;
   margin: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 7px #c7c6c6;
   overflow: hidden;
   transition: transform 0.2s;
   text-decoration: none;
@@ -132,7 +131,6 @@ export default {
   color: #555;
 }
 
-
 .recipe-overview .time,
 .recipe-overview .likes,
 .recipe-overview .dietary-icons {
@@ -152,12 +150,13 @@ export default {
 }
 
 .clock-icon {
-  margin-right: 5px; 
+  margin-right: 5px;
 }
 
 .likes {
   display: flex;
   align-items: center;
+  margin-top: 10px;
 }
 
 .likes .like-text {

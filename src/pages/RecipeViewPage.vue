@@ -145,7 +145,7 @@ body {
 }
 
 .recipe-content {
-  background-color: #f1f0f0;
+  background-color: #f2f0f0f5;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -161,12 +161,12 @@ body {
   font-size: 2.5em;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #444242;
+  color: #353535;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
 }
 
 .recipe-image {
-  max-width: 100%;
+  max-width: 65%;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }

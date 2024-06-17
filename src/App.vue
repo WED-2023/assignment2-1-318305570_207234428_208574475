@@ -1,45 +1,46 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <router-link class="navbar-brand" :to="{ name: 'main' }">Home</router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <router-link class="navbar-brand" :to="{ name: 'main' }">Home</router-link>
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 align-items-center">
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'search' }">Search</router-link>
+            <router-link class="nav-link" :to="{ name: 'search' }"><b-icon icon="search" scale="0.75"></b-icon> Search</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'about' }">About</router-link>
-          </li>
-          <li class="nav-item" v-if="!$root.store.username">
-            Hello Guest: <router-link class="nav-link d-inline" :to="{ name: 'register' }">Register</router-link>
-          </li>
-          <li class="nav-item" v-if="!$root.store.username">
-            <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
-          </li>
-          <li class="nav-item" v-if="$root.store.username">
-            <b-dropdown text="Personal">
-              <b-dropdown-item :to="{ name: 'myFavoriteRecipes' }">My Favorite Recipes</b-dropdown-item>
-              <b-dropdown-item :to="{ name: 'myRecipes' }">My Recipes</b-dropdown-item>
-              <b-dropdown-item>My Family's Recipes</b-dropdown-item>
-            </b-dropdown>
+            <router-link class="nav-link" :to="{ name: 'about' }"><b-icon icon="question" scale="1.4"></b-icon>About</router-link>
           </li>
           <li class="nav-item" v-if="$root.store.username">
             <button class="btn btn-link nav-link" @click="showCreateRecipeModal">New Recipe</button>
           </li>
-          <li class="nav-item" v-if="$root.store.username">
-            {{ $root.store.username }}:
-          </li>
-          <li class="nav-item" v-if="$root.store.username">
-            <button class="btn btn-link nav-link" @click="Logout">Logout</button>
+          <li class="nav-item ml-2" v-if="$root.store.username">
+            <b-dropdown text="Personal" right>
+              <b-dropdown-item :to="{ name: 'myFavoriteRecipes' }">My Favorite Recipes <b-icon icon="heart" scale="0.75"></b-icon></b-dropdown-item>
+              <b-dropdown-item :to="{ name: 'myRecipes' }">My Recipes</b-dropdown-item>
+              <b-dropdown-item>My Family's Recipes</b-dropdown-item>
+            </b-dropdown>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <ul class="navbar-nav ml-auto align-items-center">
+          <li class="nav-item" v-if="!$root.store.username">
+            <span class="navbar-text mr-2 align-middle">Hello Guest:</span>
+          </li>
+          <li class="nav-item" v-if="!$root.store.username">
+            <router-link class="btn btn-outline-light btn-sm mr-2 align-middle" :to="{ name: 'register' }">Register</router-link>
+          </li>
+          <li class="nav-item" v-if="!$root.store.username">
+            <router-link class="btn btn-outline-light btn-sm align-middle" :to="{ name: 'login' }">Login</router-link>
+          </li>
+          <li class="nav-item" v-if="$root.store.username">
+            <span class="nav-link mr-2 align-middle"><b-icon icon="person" scale="1"></b-icon> {{ $root.store.username }}</span>
+          </li>
+          <li class="nav-item" v-if="$root.store.username">
+            <button class="btn btn-outline-light btn-sm align-middle" @click="Logout">Logout</button>
+          </li>
+        </ul>
       </div>
     </nav>
     <router-view />
@@ -48,7 +49,6 @@
     <CreateRecipe ref="createRecipeModal" @recipe-saved="addRecipeToMyRecipes" />
   </div>
 </template>
-
 
 <script>
 import { BDropdown, BDropdownItem } from 'bootstrap-vue';
@@ -81,36 +81,77 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/scss/form-style.scss";
-
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  font-family: 'Arial', sans-serif;
   min-height: 100vh;
+  padding-top: 56px; /* Ensure content is not hidden behind fixed navbar */
+  background: url('@/assets/background.png') no-repeat center center fixed;
+  background-size: 100%; /* Adjust this value to zoom out */
 }
 
-.nav-item {
-  margin: 0.9%;
+.navbar {
+  background-color: #121212; /* Change navbar to black */
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
   font-weight: bold;
-  color: #8e9498;
-  white-space: nowrap;
+  margin-bottom: 4px;
 }
 
-.nav-link {
-  color: #898d90;
+.nav-link,
+.btn {
+  color: #dee2e6;
 }
 
-.nav-link.router-link-exact-active {
-  color: #898d90;
+.nav-link:hover,
+.nav-link.router-link-exact-active,
+.btn:hover {
+  color: #fff;
 }
 
-.d-inline {
-  display: inline;
+.navbar-toggler {
+  border-color: #fff;
 }
 
-.align-items-center {
-  align-items: center !important;
+.dropdown-menu {
+  background-color: #343a40;
+}
+
+.dropdown-item {
+  color: #dee2e6;
+}
+
+.dropdown-item:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.btn-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-outline-light {
+  border-color: #fff;
+  color: #fff;
+}
+
+.btn-outline-light:hover {
+  background-color: #fff;
+  color: #343a40;
+}
+
+.btn-sm {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.align-middle {
+  vertical-align: middle !important;
+}
+
+.ml-2 {
+  margin-left: 0.5rem !important;
 }
 </style>
