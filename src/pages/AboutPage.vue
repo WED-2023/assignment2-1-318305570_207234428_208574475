@@ -65,6 +65,16 @@
         </ul>
       </section>
 
+      <!-- Technologies Used Section -->
+      <section class="previous-projects-section">
+        <h2>Previous Projects</h2>
+
+        <ul class="tech-list">
+          <li>Netta: <a href="https://wed-2023.github.io/318305570/" target="_blank">https://wed-2023.github.io/318305570/</a></li>
+          <li>Gil: <a href="https://github.com/WED-2023/207234428.git" target="_blank">https://github.com/WED-2023/207234428.git</a></li>
+        </ul>
+      </section>
+
       <!-- Contact Us Section -->
       <section class="contact-section">
         <h2>Contact Us</h2>
