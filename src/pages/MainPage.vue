@@ -64,11 +64,15 @@ export default {
 }
 
 .page-title {
-  background-color: rgba(44, 44, 46, 0.8); /* Transparent background */
+  margin: 20px auto; /* Center the card horizontally and add margin on top */
   padding: 20px;
-  margin-bottom: 20px;
-  text-align: center;
+  width: 70%;
+  max-width: 1200px; /* Limit the maximum width of the card */
+  background-color: rgba(44, 44, 46, 0.8); /* Transparent background */
+  color: #fff;
   border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 .page-title h1 {

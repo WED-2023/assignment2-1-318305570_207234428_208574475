@@ -1,9 +1,6 @@
-// src/services/search.js
-
 import recipe_previews from "../assets/mocks/recipe_preview.json";
 
-
-export function mockSearchRecipes(query, amount, category, answers=false, sortBy='default') {
+export function mockSearchRecipes(query, amount, category, answers = false, sortBy = 'default') {
   if (!answers) {
     throw { status: 409, response: { data: { message: "No recipes were found", success: false } } };
   }
@@ -19,17 +16,16 @@ export function mockSearchRecipes(query, amount, category, answers=false, sortBy
   const selected = shuffled.slice(0, amount);
   console.log("Selected before sorting:", selected);
 
-
   // Sort based on the sortBy parameter
   if (sortBy === 'preparationTime') {
-    console.log('time type:', typeof selected[0].readyInMinutes);
+    console.log('Sorting by preparation time');
     selected.sort((a, b) => a.readyInMinutes - b.readyInMinutes);
   } else if (sortBy === 'popularity') {
+    console.log('Sorting by popularity');
     selected.sort((a, b) => b.aggregateLikes - a.aggregateLikes);
   }
 
   console.log("Selected after sorting by", sortBy, ":", selected);
-
 
   return { data: { recipes: selected } };
 }

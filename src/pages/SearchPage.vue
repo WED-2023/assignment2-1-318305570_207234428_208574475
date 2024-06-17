@@ -1,46 +1,46 @@
 <template>
   <div>
     <div class="card" id="main-card">
-    <div class="row">
-      <input v-model="searchQuery" type="text" placeholder="Search by recipe name or dish" @keyup.enter="searchRecipes">
-      <select v-model="resultsLimit">
-        <option value="5">5 results</option>
-        <option value="10">10 results</option>
-        <option value="15">15 results</option>
-      </select>
-      <select v-model="sortBy">
-        <option value="default">Default</option>
-        <option value="preparationTime">Preparation Time</option>
-        <option value="popularity">Popularity</option>
-      </select>
-      <button @click="searchRecipes">Search</button>
-    </div>
+      <div class="row">
+        <input v-model="searchQuery" type="text" placeholder="Search by recipe name or dish" @keyup.enter="searchRecipes">
+        <select v-model="resultsLimit">
+          <option value="5">5 results</option>
+          <option value="10">10 results</option>
+          <option value="15">15 results</option>
+        </select>
+        <select v-model="sortBy">
+          <option value="default">Default</option>
+          <option value="preparationTime">Preparation Time</option>
+          <option value="popularity">Popularity</option>
+        </select>
+        <button @click="searchRecipes">Search</button>
+      </div>
 
-    <a data-toggle="collapse" href="#AdvanceFilter" role="button" aria-expanded="false" aria-controls="AdvanceFilter" class="advanced">
-      Advance Search With Filters <i class="fa fa-angle-down"></i>
-    </a>
-    <div class="collapse" id="AdvanceFilter">
-      <div class="card card-body">
-        <div class="row">
-          <div class="col" v-for="category in categories" :key="category.name">
-            <h3>{{ category.name }}</h3>
-            <div class="form-check" v-for="item in category.items" :key="item">
-              <input
-                class="form-check-input custom-checkbox"
-                type="checkbox"
-                v-model="checkedItems[category.name][item]"
-                :value="item.value"
-                :id="item"
-              >
-              <label class="form-check-label" :for="item">
-                {{ item }}
-              </label>
+      <a data-toggle="collapse" href="#AdvanceFilter" role="button" aria-expanded="false" aria-controls="AdvanceFilter" class="advanced">
+        Advance Search With Filters <i class="fa fa-angle-down"></i>
+      </a>
+      <div class="collapse" id="AdvanceFilter">
+        <div class="card card-body">
+          <div class="row">
+            <div class="col" v-for="category in categories" :key="category.name">
+              <h3>{{ category.name }}</h3>
+              <div class="form-check" v-for="item in category.items" :key="item">
+                <input
+                  class="form-check-input custom-checkbox"
+                  type="checkbox"
+                  v-model="checkedItems[category.name][item]"
+                  :value="item.value"
+                  :id="item"
+                >
+                <label class="form-check-label" :for="item">
+                  {{ item }}
+                </label>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
     <div v-if="searchResults.length > 0">
       <RecipePreviewList :amountToFetch="resultsLimit" :recipes="searchResults" />
@@ -50,7 +50,6 @@
     </b-alert>
   </div>
 </template>
-
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList.vue";
@@ -105,7 +104,7 @@ export default {
     }
   },
   methods: {
-    searchRecipes() {
+    async searchRecipes() {
       // Check if searchQuery is empty
       if (!this.searchQuery.trim()) {
         return; // Exit the method if searchQuery is empty or whitespace only
@@ -113,7 +112,7 @@ export default {
 
       try {
         console.log(this.resultsLimit);
-        const response = mockSearchRecipes(this.searchQuery, this.resultsLimit, this.selectedCategory, true, this.sortBy);
+        const response = await mockSearchRecipes(this.searchQuery, this.resultsLimit, this.selectedCategory, true, this.sortBy);
         this.searchResults = response.data.recipes;
 
         // Save the search query and results to sessionStorage
@@ -228,5 +227,3 @@ button:hover {
   color: #fff;
 }
 </style>
-
-

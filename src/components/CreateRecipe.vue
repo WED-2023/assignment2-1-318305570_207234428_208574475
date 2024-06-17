@@ -15,15 +15,15 @@
           <b-form-input id="prep-time" v-model="recipeDetails.prepTime" type="number" required></b-form-input>
         </b-form-group>
 
-        <b-form-group label="Is Vegetarian" label-for="is-vegetarian">
+        <b-form-group label-for="is-vegetarian">
           <b-form-checkbox id="is-vegetarian" v-model="recipeDetails.isVegetarian">Vegetarian</b-form-checkbox>
         </b-form-group>
 
-        <b-form-group label="Is Vegan" label-for="is-vegan">
+        <b-form-group label-for="is-vegan">
           <b-form-checkbox id="is-vegan" v-model="recipeDetails.isVegan">Vegan</b-form-checkbox>
         </b-form-group>
 
-        <b-form-group label="Is Gluten-Free" label-for="is-gluten-free">
+        <b-form-group label-for="is-gluten-free">
           <b-form-checkbox id="is-gluten-free" v-model="recipeDetails.isGlutenFree">Gluten-Free</b-form-checkbox>
         </b-form-group>
 
@@ -35,8 +35,8 @@
           <b-form-textarea id="recipe-instructions" v-model="recipeDetails.instructions" rows="5" required></b-form-textarea>
         </b-form-group>
 
-        <b-button variant="success" @click="handleSubmit">Save Recipe</b-button>
-        <b-button variant="danger" @click="cancel">Cancel</b-button>
+        <b-button class="button" variant="dark" @click="handleSubmit">Save Recipe</b-button>
+        <b-button class="button" variant="secondary" @click="cancel">Cancel</b-button>
       </b-form>
     </b-modal>
   </div>
@@ -109,5 +109,7 @@ export default {
 </script>
 
 <style>
-
+  .button{
+    margin-right: 10px;
+  }
 </style>
