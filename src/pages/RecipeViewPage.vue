@@ -36,9 +36,7 @@
         <div class="recipe-instructions">
           <h2>Instructions</h2>
           <ol>
-            <li v-for="s in recipe._instructions" :key="s.number">
-              {{ s.step }}
-            </li>
+            {{ recipe._instructions }}
           </ol>
         </div>
       </div>
@@ -88,12 +86,14 @@ export default {
         servings
       } = response.data.recipe;
 
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
+      // let _instructions = analyzedInstructions
+      //   .map((fstep) => {
+      //     fstep.steps[0].step = fstep.name + fstep.steps[0].step;
+      //     return fstep.steps;
+      //   })
+      //   .reduce((a, b) => [...a, ...b], []);
+
+      let _instructions = instructions;
 
       let _recipe = {
         instructions,

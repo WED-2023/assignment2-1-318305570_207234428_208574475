@@ -7,7 +7,7 @@
       <section class="team-section">
         <h2>Development Team</h2>
 
-        <!-- Neta's Information -->
+        <!-- Netta's Information -->
         <div class="team-member">
           <h3>Netta Meiri</h3>
           <p class="member-description">
