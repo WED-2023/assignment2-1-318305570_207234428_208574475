@@ -26,6 +26,16 @@
             creating responsive web applications.
           </p>
         </div>
+
+        <!-- Noa's Information -->
+        <div class="team-member">
+          <h3>Noa Stern</h3>
+          <p class="member-description">
+            Third-year student in Software and Information Systems Engineering at Ben-Gurion University (BGU).
+            Experienced in full-stack development with a focus on React, Node.js, and PostgreSQL. Passionate about
+            developing user-friendly and high-performance web applications.
+          </p>
+        </div>
       </section>
 
       <!-- Project Overview Section -->
@@ -68,10 +78,10 @@
       <!-- Technologies Used Section -->
       <section class="previous-projects-section">
         <h2>Previous Projects</h2>
-
         <ul class="tech-list">
           <li>Netta: <a href="https://wed-2023.github.io/318305570/" target="_blank">https://wed-2023.github.io/318305570/</a></li>
           <li>Gil: <a href="https://github.com/WED-2023/207234428.git" target="_blank">https://github.com/WED-2023/207234428.git</a></li>
+          <li>Noa: <a href="https://wed-2023.github.io/208574475/" target="_blank">https://wed-2023.github.io/208574475/</a></li>
         </ul>
       </section>
 
@@ -84,6 +94,8 @@
             <b-icon icon="envelope" scale="1.2"></b-icon> <a href="mailto:nettamei@post.bgu.ac.il">nettamei@post.bgu.ac.il</a> 
             <br>
             <b-icon icon="envelope" scale="1.2"></b-icon> <a href="mailto:gilagm@post.bgu.ac.il">gilagm@post.bgu.ac.il</a>
+            <br>
+            <b-icon icon="envelope" scale="1.2"></b-icon> <a href="mailto:noaster@post.bgu.ac.il">noaster@post.bgu.ac.il</a>
           </li>
         </ul>
       </section>
@@ -155,7 +167,7 @@ export default {
   text-decoration: none;
 }
 
-.contact-list a:hover {
+contact-list a:hover {
   text-decoration: underline;
 }
 
