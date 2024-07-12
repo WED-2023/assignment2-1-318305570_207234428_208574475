@@ -25,7 +25,6 @@
       const response = await this.axios.get(
         this.$root.store.server_domain + "/users/favorites"
       );
-      console.log("respons:", response);
       this.recipes = response.data;
 
     } catch (err) {

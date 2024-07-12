@@ -20,10 +20,9 @@
           </div>
         </div>
         <div class="likes">
-          <b-button @click.prevent="likeClicked" variant="outline" class="like-button">
-            <b-icon :icon="like_clicked ? 'heart-fill' : 'heart'" aria-hidden="true"></b-icon>
-          </b-button>
-          <span class="like-text">{{ like_clicked ? recipe.aggregateLikes + 1 : recipe.aggregateLikes }} likes</span>
+            <b-button @click.prevent="likeClicked" variant="outline" class="mb-2">
+              <b-icon :icon="like_clicked ? 'heart-fill' : 'heart'" aria-hidden="true"></b-icon>
+            </b-button>
         </div>
         <div class="recipe-ingredients">
           <h2>Ingredients | {{ recipe.servings }} servings</h2>
@@ -35,9 +34,7 @@
         </div>
         <div class="recipe-instructions">
           <h2>Instructions</h2>
-          <ol>
-            {{ recipe._instructions }}
-          </ol>
+          <div v-html="recipe.instructions"></div>
         </div>
       </div>
       <b-toast v-model="toastShow" :auto-hide-delay="5000" no-close-button>
@@ -69,14 +66,26 @@ export default {
   async created() {
     try {
       let response;
-      response = mockGetRecipeFullDetails(this.$route.params.recipeId);
-      if (response.status !== 200) this.$router.replace("/NotFound");
+      const recipeDetails = {
+        recipeId: this.$route.params.recipeId
+      };
+      console.log("recipeId", this.$route.params.recipeId)
+      // response = mockGetRecipeFullDetails(this.$route.params.recipeId);
+      try {
+        const response = await this.axios.get(
+           `${this.$root.store.server_domain}/recipes/fullRecipe/${this.$route.params.recipeId}`
+        );
+        this.recipe = response.data;
+        console.log("response", response.data);
+      } catch (err) {
+        console.error('Error fetching full view recipe:', err);
+        this.$router.replace("/NotFound");
+      }
 
       let {
         analyzedInstructions,
         instructions,
         extendedIngredients,
-        aggregateLikes,
         readyInMinutes,
         image,
         title,
@@ -100,7 +109,6 @@ export default {
         _instructions,
         analyzedInstructions,
         extendedIngredients,
-        aggregateLikes,
         readyInMinutes,
         image,
         title,
