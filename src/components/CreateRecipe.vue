@@ -27,8 +27,15 @@
           <b-form-checkbox id="is-gluten-free" v-model="recipeDetails.isGlutenFree">Gluten-Free</b-form-checkbox>
         </b-form-group>
 
+        <b-form-group label="Add Ingredient" label-for="new-ingredient">
+          <b-form-input id="new-ingredient" v-model="newIngredient" placeholder="Enter ingredient"></b-form-input>
+          <b-button class="mt-2" variant="dark" @click="addIngredient">Add Ingredient</b-button>
+        </b-form-group>
+
         <b-form-group label="Ingredients" label-for="recipe-ingredients">
-          <b-form-textarea id="recipe-ingredients" v-model="recipeDetails.ingredients" rows="3" required></b-form-textarea>
+          <ul>
+            <li v-for="(ingredient, index) in recipeDetails.ingredients" :key="index">{{ ingredient }}</li>
+          </ul>
         </b-form-group>
 
         <b-form-group label="Instructions" label-for="recipe-instructions">
@@ -41,6 +48,8 @@
     </b-modal>
   </div>
 </template>
+
+
 
 <script>
 import { mockAddUserRecipe } from '../services/user';
@@ -55,12 +64,19 @@ export default {
         isVegetarian: false,
         isVegan: false,
         isGlutenFree: false,
-        ingredients: '',
+        ingredients: [],
         instructions: ''
-      }
+      },
+      newIngredient: ''
     };
   },
   methods: {
+    addIngredient() {
+      if (this.newIngredient.trim() !== '') {
+        this.recipeDetails.ingredients.push(this.newIngredient.trim());
+        this.newIngredient = ''; // Clear the input field
+      }
+    },
     handleSubmit() {
       const response = mockAddUserRecipe(this.recipeDetails);
       if (response.status === 200 && response.response.data.success) {
@@ -75,7 +91,7 @@ export default {
           isVegetarian: false,
           isVegan: false,
           isGlutenFree: false,
-          ingredients: '',
+          ingredients: [],
           instructions: ''
         };
 
@@ -97,7 +113,7 @@ export default {
         isVegetarian: false,
         isVegan: false,
         isGlutenFree: false,
-        ingredients: '',
+        ingredients: [],
         instructions: ''
       };
 
@@ -108,8 +124,14 @@ export default {
 };
 </script>
 
+
 <style>
-  .button{
-    margin-right: 10px;
-  }
+.button {
+  margin-right: 10px;
+}
+.mt-2 {
+  margin-top: 10px;
+}
 </style>
+
+
