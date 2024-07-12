@@ -291,9 +291,16 @@ export default {
       try {
         const userDetails = {
           username: this.form.username,
-          password: this.form.password
+          password: this.form.password,
+          firstname: this.form.firstName,
+          lastname: this.form.lastName,
+          country: this.form.country,
+          email: this.form.email
         };
-        const response = mockRegister(userDetails);
+        const response = await this.axios.post(
+          this.$root.store.server_domain + "/register", userDetails
+        );
+        // const response = mockRegister(userDetails);
         this.$router.push("/login");
       } catch (err) {
         console.log(err.response);

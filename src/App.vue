@@ -68,7 +68,10 @@ export default {
     addRecipeToMyRecipes(recipeDetails) {
       this.$root.$emit('new-recipe-added', recipeDetails);
     },
-    Logout() {
+    async Logout() {
+      const response = await this.axios.post(
+          this.$root.store.server_domain + "/logout" 
+      );
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
 

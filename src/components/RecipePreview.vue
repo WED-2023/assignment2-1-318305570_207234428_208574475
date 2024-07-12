@@ -22,7 +22,6 @@
             <b-button @click.prevent="likeClicked" variant="outline" class="mb-2">
               <b-icon :icon="like_clicked ? 'heart-fill' : 'heart'" aria-hidden="true"></b-icon>
             </b-button>
-            <span class="like-text">{{ like_clicked ? recipe.aggregateLikes + 1 : recipe.aggregateLikes }} likes</span>
           </div>
         </div>
       </div>
@@ -36,6 +35,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { BToast } from 'bootstrap-vue';
@@ -59,10 +59,25 @@ export default {
       required: true
     }
   },
+  async mounted() {
+  },
   methods: {
-    likeClicked() {
+    async likeClicked() {
       this.like_clicked = !this.like_clicked;
-      const response = mockAddFavorite(this.recipe.id);
+      const userDetails = {
+        recipeId: this.recipe.id,
+      };
+      try {
+        const response = await this.axios.post(
+          this.$root.store.server_domain + "/users/favorites", userDetails
+      );
+      console.log("respons:", response);
+      this.recipes = response.data;
+
+    } catch (err) {
+      console.error('Error fetching favorite recipes:', err);
+    }
+      // const response = mockAddFavorite(this.recipe.id);
       this.toastMessage = response.response.data.message;
       this.toastShow = true;
     },
@@ -72,6 +87,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .recipe-preview {

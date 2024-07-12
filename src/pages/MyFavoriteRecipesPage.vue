@@ -3,7 +3,7 @@
       <div class="title">
         <h1>My Favorite Recipes</h1>
       </div>
-      <RecipePreviewList :amountToFetch="4" />
+      <RecipePreviewList :recipes="recipes" />
     </div>
   </template>
   
@@ -14,7 +14,28 @@
     name: 'MyFavoriteRecipes',
     components: {
       RecipePreviewList
+    },
+    data() {
+      return {
+        recipes: []
+      };
+    },
+    async mounted() {
+    try {
+      const response = await this.axios.get(
+        this.$root.store.server_domain + "/users/favorites"
+      );
+      console.log("respons:", response);
+      this.recipes = response.data;
+
+    } catch (err) {
+      console.error('Error fetching favorite recipes:', err);
     }
+  }
+
+// CAME TO CHECK FAVORITES
+
+
   };
   </script>
   

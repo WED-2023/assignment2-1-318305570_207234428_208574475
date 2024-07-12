@@ -93,11 +93,18 @@ export default {
     },
     async Login() {
       try {
-        const success = true; // Modify this to test the error handling
-        const response = mockLogin(
-          { username: this.form.username, password: this.form.password },
-          success
+        const userDetails = {
+          username: this.form.username,
+          password: this.form.password,
+        };
+        // const success = true; // Modify this to test the error handling
+        const response = await this.axios.post(
+          this.$root.store.server_domain + "/login", userDetails 
         );
+        // const response = mockLogin(
+        //   { username: this.form.username, password: this.form.password },
+        //   success
+        // );
 
         this.$root.store.login(this.form.username);
         this.$router.push("/");

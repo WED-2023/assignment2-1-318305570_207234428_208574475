@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <h3>
-      {{ title }}
+      <!-- {{ title }} -->
       <slot></slot>
     </h3>
     <b-row>
@@ -22,55 +22,57 @@ export default {
     RecipePreview,
   },
   props: {
-    title: {
-      type: String,
+    // title: {
+    //   type: String,
+    //   required: true,
+    // },
+    recipes: {
+      type: Array,
       required: true,
     },
-    amountToFetch: {
-      type: Number,
-      required: true,
-    },
+    // amountToFetch: {
+    //   type: Number,
+    //   required: true,
+    // },
 
-    //chat gpt add:
-    userName: {
-      type: String,
-      required: false,
-      default: ''
-    }
+    // userName: {
+    //   type: String,
+    //   required: false,
+    //   default: ''
+    // }
 
   },
-  data() {
-    return {
-      recipes: [],
-    };
-  },
-  watch: {
-    $props: {
-      handler() {
-        this.updateRecipes();
-      },
-      deep: true,
-    },
-  },
-  mounted() {
-    this.updateRecipes();
-  },
-  methods: {
-    async updateRecipes() {
-      try {
-        // const response = await this.axios.get(
-        //   this.$root.store.server_domain + "/recipes/random",
-        // );
-        //const response = mockGetRecipesPreview(this.amountToFetch);
-        const response = mockGetRecipesPreview(this.amountToFetch, this.userName);
+  // data() {
+  //   return {
+  //     recipes: [],
+  //   };
+  // },
+  // watch: {
+  //   $props: {
+  //     handler() {
+  //       this.updateRecipes();
+  //     },
+  //     deep: true,
+  //   },
+  // },
+  // mounted() {
+  //   this.updateRecipes();
+  // },
+  // methods: {
+  //   async updateRecipes() {
+  //     try {
+  //       // const response = await this.axios.get(
+  //       //   this.$root.store.server_domain + "/recipes/random",
+  //       // );
+  //       const response = mockGetRecipesPreview(this.amountToFetch, this.userName);
 
-        const recipes = response.data.recipes;
-        this.recipes = recipes;
-      } catch (error) {
-        console.error('Error fetching recipes:', error);
-      }
-    },
-  },
+  //       const recipes = response.data.recipes;
+  //       this.recipes = recipes;
+  //     } catch (error) {
+  //       console.error('Error fetching recipes:', error);
+  //     }
+  //   },
+  // },
 };
 </script>
 
