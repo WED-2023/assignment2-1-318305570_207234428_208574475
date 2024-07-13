@@ -66,17 +66,18 @@ export default {
   async created() {
     try {
       let response;
-      const recipeDetails = {
-        recipeId: this.$route.params.recipeId
-      };
-      console.log("recipeId", this.$route.params.recipeId)
-      // response = mockGetRecipeFullDetails(this.$route.params.recipeId);
+      const recipeId = this.$route.params.recipeId;
       try {
-        const response = await this.axios.get(
-           `${this.$root.store.server_domain}/recipes/fullRecipe/${this.$route.params.recipeId}`
-        );
+        if (typeof recipeId === 'undefined' || recipeId === null) {
+          const recipeTitle = this.$route.params.recipeTitle;
+          // If recipeId is undefined or null, fetch the user's recipe
+          response = await this.axios.get(`${this.$root.store.server_domain}/users/myrecipes/fullview`, recipeTitle);
+        } else {
+          // Otherwise, fetch the full recipe based on recipeId
+          response = await this.axios.get(`${this.$root.store.server_domain}/recipes/fullRecipe/${recipeId}`);
+        }
         this.recipe = response.data;
-        console.log("response", response.data);
+        // console.log("response", response.data);
       } catch (err) {
         console.error('Error fetching full view recipe:', err);
         this.$router.replace("/NotFound");

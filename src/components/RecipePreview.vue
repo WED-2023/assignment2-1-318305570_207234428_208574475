@@ -1,6 +1,6 @@
 <template>
   <div class="recipe-preview">
-    <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }">
+    <router-link :to="{ name: 'recipe', params: { recipeTitle: recipe.title, recipeId: recipe.id } }">
       <div class="recipe-body">
         <img :src="recipe.image" class="recipe-image" />
       </div>

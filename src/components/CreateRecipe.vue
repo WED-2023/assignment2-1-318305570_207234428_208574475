@@ -15,6 +15,10 @@
           <b-form-input id="prep-time" v-model="recipeDetails.prepTime" type="number" required></b-form-input>
         </b-form-group>
 
+        <b-form-group label="Number of Servings" label-for="servings">
+          <b-form-input id="servings" v-model="recipeDetails.servings" type="number" required></b-form-input>
+        </b-form-group>
+
         <b-form-group label-for="is-vegetarian">
           <b-form-checkbox id="is-vegetarian" v-model="recipeDetails.isVegetarian">Vegetarian</b-form-checkbox>
         </b-form-group>
@@ -32,7 +36,7 @@
           <b-button class="mt-2" variant="dark" @click="addIngredient">Add Ingredient</b-button>
         </b-form-group>
 
-        <b-form-group label="Ingredients" label-for="recipe-ingredients">
+        <b-form-group label-for="recipe-ingredients">
           <ul>
             <li v-for="(ingredient, index) in recipeDetails.ingredients" :key="index">{{ ingredient }}</li>
           </ul>
@@ -42,7 +46,7 @@
           <b-form-textarea id="recipe-instructions" v-model="recipeDetails.instructions" rows="5" required></b-form-textarea>
         </b-form-group>
 
-        <b-button class="button" variant="dark" @click="handleSubmit">Save Recipe</b-button>
+        <b-button class="button" variant="dark" type="submit">Save Recipe</b-button>
         <b-button class="button" variant="secondary" @click="cancel">Cancel</b-button>
       </b-form>
     </b-modal>
@@ -58,14 +62,15 @@ export default {
   data() {
     return {
       recipeDetails: {
-        picture: '',
         title: '',
+        picture: '',
         prepTime: 0,
         isVegetarian: false,
         isVegan: false,
         isGlutenFree: false,
         ingredients: [],
-        instructions: ''
+        instructions: '',
+        servings: 0
       },
       newIngredient: ''
     };
@@ -77,9 +82,14 @@ export default {
         this.newIngredient = ''; // Clear the input field
       }
     },
-    handleSubmit() {
-      const response = mockAddUserRecipe(this.recipeDetails);
-      if (response.status === 200 && response.response.data.success) {
+    async handleSubmit() {
+      // const response = mockAddUserRecipe(this.recipeDetails);
+      console.log("Submitting recipe:", this.recipeDetails);
+      const response = await this.axios.post(
+        this.$root.store.server_domain + "/users/recipes", this.recipeDetails
+      );
+      this.recipes = response.data;
+      if (response.status === 200 && response.data.success) {
         // Emit an event to notify parent about the new recipe
         this.$emit('recipe-saved', this.recipeDetails);
 
@@ -92,7 +102,8 @@ export default {
           isVegan: false,
           isGlutenFree: false,
           ingredients: [],
-          instructions: ''
+          instructions: '',
+          servings: 0
         };
 
         // Close the modal
@@ -114,7 +125,8 @@ export default {
         isVegan: false,
         isGlutenFree: false,
         ingredients: [],
-        instructions: ''
+        instructions: '',
+        servings: 0
       };
 
       // Close the modal

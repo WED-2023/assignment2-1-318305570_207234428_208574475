@@ -3,7 +3,7 @@
     <div class="title">
       <h1>My Recipes</h1>
     </div>
-    <RecipePreviewList :amountToFetch="amountToFetch" :userName="$root.store.username" />
+    <RecipePreviewList :recipes="recipes" />
   </div>
 </template>
 
@@ -17,12 +17,24 @@ export default {
   },
   data() {
     return {
-      amountToFetch: 0
+      recipes: []
     };
   },
   created() {
     this.$root.$on('new-recipe-added', this.incrementAmountToFetch);
     this.loadInitialRecipes();
+  },
+  async mounted() {
+    try {
+      console.log("blah",this.$root.store.server_domain)
+      const response = await this.axios.get(
+        this.$root.store.server_domain + "/users/myrecipes/preview"
+      );
+      this.recipes = response.data;
+
+    } catch (err) {
+      console.error('Error fetching users recipes:', err);
+    }
   },
   methods: {
     incrementAmountToFetch() {
