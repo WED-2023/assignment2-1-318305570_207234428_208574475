@@ -81,13 +81,9 @@ export default {
       searchResults: [],
       checkedItems: checkedItems,
       submitError: undefined,
-      filters: {
-        query: '',
-        intolerances: checkedItems.Intolerances,
-        diet: checkedItems.Diet,
-        cuisine: checkedItems.Cuisine,
-        number: this.selectedReturnOption,
-      },
+      intolerances: checkedItems.Intolerances,
+      diet: checkedItems.Diet,
+      cuisine: checkedItems.Cuisine,
     };
   },
   created() {
@@ -105,37 +101,70 @@ export default {
   },
   methods: {
     async searchRecipes() {
+      // Remove a specific item by its key
+      try{
+        sessionStorage.removeItem('searchQuery');
+        sessionStorage.removeItem('searchResults');
+      }
+      catch(err){
+         // catch block intentionally left empty
+      }
+      
+      // Convert checked items into comma-separated strings
+      const cuisine = Object.keys(this.cuisine)
+        .filter(key => this.cuisine[key])
+        .join(',');
+
+      const diet = Object.keys(this.diet)
+        .filter(key => this.diet[key])
+        .join(',');
+
+      const intolerance = Object.keys(this.intolerances)
+        .filter(key => this.intolerances[key])
+        .join(',');
+
+      console.log("Transformed Parameters:", {
+        cuisine,
+        diet,
+        intolerance,
+      });
+      
       // Check if searchQuery is empty
       if (!this.searchQuery.trim()) {
         return; // Exit the method if searchQuery is empty or whitespace only
       }
 
       try {
-        console.log(this.resultsLimit);
-        const response = await mockSearchRecipes(this.searchQuery, this.resultsLimit, this.selectedCategory, true, this.sortBy);
-        this.searchResults = response.data.recipes;
+      const recipeDetails = {
+        query: this.searchQuery,
+        number: this.resultsLimit
+      };
+      // Only add non-empty parameters
+      if (cuisine) recipeDetails.cuisine = cuisine;
+      if (diet) recipeDetails.diet = diet;
+      if (intolerance) recipeDetails.intolerances = intolerance;
 
-        // Save the search query and results to sessionStorage
-        sessionStorage.setItem('searchQuery', this.searchQuery);
-        sessionStorage.setItem('searchResults', JSON.stringify(this.searchResults));
-      } catch (err) {
-        console.log(err.response);
-        this.submitError = err.response.data.message;
-      }
+      console.log("Final recipeDetails sent to API:", recipeDetails);
 
-      const checkedBoxes = {};
-      for (const category in this.checkedItems) {
-        checkedBoxes[category] = Object.keys(this.checkedItems[category]).filter((item) => {
-          return this.checkedItems[category][item];
-        });
-      }
+      // Pass recipeDetails as params
+      const response = await this.axios.get(
+        this.$root.store.server_domain + "/recipes/search", 
+        { params: recipeDetails } // Use params to send query parameters
+      );
+      console.log("response:", response.data);
 
-      this.filters.query = this.searchQuery;
-      this.filters.intolerances = checkedBoxes.Intolerances;
-      this.filters.diet = checkedBoxes.Diet;
-      this.filters.cuisine = checkedBoxes.Cuisine;
-      this.filters.number = this.resultsLimit;
-    },
+      // Update searchResults with the response data
+      this.searchResults = response.data;
+      console.log("search results:", this.searchResults);
+
+      // Save the search query and results to sessionStorage
+      sessionStorage.setItem('searchQuery', this.searchQuery);
+      sessionStorage.setItem('searchResults', JSON.stringify(this.searchResults));
+    } catch (err) {
+      console.log(err.response);
+      this.submitError = err.response?.data?.message || "An error occurred during the search.";
+    }
+  },
     logout() {
       // Clear the sessionStorage on logout
       sessionStorage.clear();
