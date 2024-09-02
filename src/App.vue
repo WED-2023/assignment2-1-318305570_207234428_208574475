@@ -44,7 +44,7 @@
       </div>
     </nav>
     <router-view />
-
+    <div id="bthn" lang="en" class="banner-bottom-right"></div> <!-- Banner Placeholder -->
     <!-- CreateRecipe Component -->
     <CreateRecipe ref="createRecipeModal" @recipe-saved="addRecipeToMyRecipes" />
   </div>
@@ -60,6 +60,18 @@ export default {
     BDropdown,
     BDropdownItem,
     CreateRecipe // Register the CreateRecipe component
+  },
+  mounted() {
+    // Adding the external script for the banner
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://bringthemhomenow.net/1.1.0/hostages-ticker.js";
+    script.setAttribute(
+      "integrity",
+      "sha384-DHuakkmS4DXvIW79Ttuqjvl95NepBRwfVGx6bmqBJVVwqsosq8hROrydHItKdsne"
+    );
+    script.setAttribute("crossorigin", "anonymous");
+    document.getElementsByTagName("head")[0].appendChild(script);
   },
   methods: {
     showCreateRecipeModal() {
@@ -156,5 +168,17 @@ export default {
 
 .ml-2 {
   margin-left: 0.5rem !important;
+}
+
+/* Banner styling for bottom-right positioning */
+.banner-bottom-right {
+  position: fixed;
+  margin-left: 925px;
+  bottom: 20px; /* Adjust spacing from bottom */
+  right: 10px;  /* Adjust spacing from right */
+  width: 250px; /* Set width of the square */
+  height: 150px; /* Set height of the square */
+  z-index: 1000; /* Ensure it appears on top of other elements */
+  overflow: hidden; /* Hide any overflow content */
 }
 </style>
