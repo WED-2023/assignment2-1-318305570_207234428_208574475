@@ -10,7 +10,7 @@
         </select>
         <select v-model="sortBy">
           <option value="default">Default</option>
-          <option value="preparationTime">Preparation Time</option>
+          <option value="time">Preparation Time</option>
           <option value="popularity">Popularity</option>
         </select>
         <button @click="searchRecipes">Search</button>
@@ -148,6 +148,7 @@ export default {
       if (cuisine) recipeDetails.cuisine = cuisine;
       if (diet) recipeDetails.diet = diet;
       if (intolerance) recipeDetails.intolerances = intolerance;
+      if (this.sortBy !== 'default') recipeDetails.sort = this.sortBy;
 
       console.log("Final recipeDetails sent to API:", recipeDetails);
 

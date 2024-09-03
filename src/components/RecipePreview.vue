@@ -19,6 +19,7 @@
             {{ recipe.readyInMinutes }} minutes
           </div>
           <div class="likes">
+            <span class="like-text">{{ recipeLikes }}</span>
             <b-button @click.prevent="likeClicked" variant="outline" class="mb-2">
               <b-icon :icon="like_clicked ? 'heart-fill' : 'heart'" aria-hidden="true"></b-icon>
             </b-button>
@@ -51,6 +52,7 @@ export default {
       like_clicked: false,
       toastShow: false,
       toastMessage: '',
+      recipeLikes: 0,
     };
   },
   props: {
@@ -60,8 +62,21 @@ export default {
     }
   },
   async mounted() {
+    await this.fetchRecipeDetails(); 
   },
   methods: {
+    async fetchRecipeDetails() {
+      try {
+        const response = await this.axios.get(`${this.$root.store.server_domain}/recipes/previewRecipe/${this.recipe.id}`);
+        const recipeData = response.data;
+        console.log("recipeData:", recipeData);
+        this.recipeLikes = recipeData.aggregateLikes;
+      } catch (error) {
+        console.error('Error fetching recipe details:', error);
+        this.toastMessage = 'Error fetching recipe details';
+        this.toastShow = true;
+      }
+    },
     async likeClicked() {
       this.like_clicked = !this.like_clicked;
       const userDetails = {
