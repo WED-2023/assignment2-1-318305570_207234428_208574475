@@ -45,8 +45,13 @@
     <div v-if="searchResults.length > 0">
       <RecipePreviewList :amountToFetch="resultsLimit" :recipes="searchResults" />
     </div>
+    <div v-else-if="searchResults.length === 0 && !submitError" class="mt-2">
+      <b-alert variant="info" dismissible show>
+        No recipes found
+      </b-alert>
+    </div>
     <b-alert class="mt-2" v-if="submitError" variant="warning" dismissible show>
-      No recipes found
+      Error while searching, please try again later
     </b-alert>
   </div>
 </template>
