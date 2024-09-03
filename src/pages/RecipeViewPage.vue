@@ -23,6 +23,7 @@
             <b-button @click.prevent="likeClicked" variant="outline" class="mb-2">
               <b-icon :icon="like_clicked ? 'heart-fill' : 'heart'" aria-hidden="true"></b-icon>
             </b-button>
+            <span class="like-text">{{ recipe.aggregateLikes }}</span>
         </div>
         <div class="recipe-ingredients">
           <h2>Ingredients | {{ recipe.servings }} servings</h2>
@@ -93,7 +94,8 @@ export default {
         vegetarian,
         vegan,
         glutenFree,
-        servings
+        servings,
+        aggregateLikes
       } = response.data.recipe;
 
       // let _instructions = analyzedInstructions
@@ -116,7 +118,8 @@ export default {
         vegetarian,
         vegan,
         glutenFree,
-        servings
+        servings,
+        aggregateLikes
       };
 
       this.recipe = _recipe;

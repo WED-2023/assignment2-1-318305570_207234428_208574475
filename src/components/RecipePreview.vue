@@ -83,17 +83,16 @@ export default {
         recipeId: this.recipe.id,
       };
       try {
-        const response = await this.axios.post(
+        const responseFavorites = await this.axios.post(
           this.$root.store.server_domain + "/users/favorites", userDetails
       );
-      console.log("respons:", response);
-      this.recipes = response.data;
-
+      console.log("responseFavorites:", responseFavorites.data);
+      this.recipes = responseFavorites.data;
     } catch (err) {
       console.error('Error fetching favorite recipes:', err);
     }
       // const response = mockAddFavorite(this.recipe.id);
-      this.toastMessage = response.response.data.message;
+      this.toastMessage = responseFavorites.data.message;
       this.toastShow = true;
     },
     dismissToast() {
