@@ -20,11 +20,11 @@
           </div>
         </div>
         <div class="likes">
+            <span class="like-text">{{ recipe.aggregateLikes }}</span>
             <b-button @click.prevent="likeClicked" variant="outline" class="mb-2">
               <b-icon :icon="like_clicked ? 'heart-fill' : 'heart'" aria-hidden="true"></b-icon>
             </b-button>
-            <span class="like-text">{{ recipe.aggregateLikes }}</span>
-        </div>
+          </div>
         <div class="recipe-ingredients">
           <h2>Ingredients | {{ recipe.servings }} servings</h2>
           <ul>
@@ -58,34 +58,47 @@ export default {
   },
   data() {
     return {
+      recipeTitle: null,
+      recipeId: null,
       recipe: null,
       like_clicked: false,
       toastShow: false,
       toastMessage: '',
+      recipeLikes: 0,
     };
+  },
+  async mounted() {
+    await this.checkIfFavorite();  // Check if the recipe is in the favorites
   },
   async created() {
     try {
       let response;
-      const recipeId = this.$route.params.recipeId;
+      this.recipeId = this.$route.params.recipeId;
+      const fromMyRecipes = this.$route.params.fromMyRecipes;
+
       try {
-        if (typeof recipeId === 'undefined' || recipeId === null) {
+         if (fromMyRecipes) {
           const recipeTitle = this.$route.params.recipeTitle;
-          // If recipeId is undefined or null, fetch the user's recipe
-          response = await this.axios.get(`${this.$root.store.server_domain}/users/myrecipes/fullview`, recipeTitle);
+          console.log("recipeTitle:", recipeTitle);
+          response = await this.axios.get(`${this.$root.store.server_domain}/users/myrecipes/fullview`, {
+          params: {
+            recipeTitle: recipeTitle
+          }
+        });
         } else {
           // Otherwise, fetch the full recipe based on recipeId
-          response = await this.axios.get(`${this.$root.store.server_domain}/recipes/fullRecipe/${recipeId}`);
+          response = await this.axios.get(`${this.$root.store.server_domain}/recipes/fullRecipe/${this.recipeId}`);
         }
         this.recipe = response.data;
-        // console.log("response", response.data);
+        console.log("this.recipe:", this.recipe);
       } catch (err) {
         console.error('Error fetching full view recipe:', err);
         this.$router.replace("/NotFound");
       }
 
+      console.log("response.data:", response);
+
       let {
-        analyzedInstructions,
         instructions,
         extendedIngredients,
         readyInMinutes,
@@ -98,17 +111,10 @@ export default {
         aggregateLikes
       } = response.data.recipe;
 
-      // let _instructions = analyzedInstructions
-      //   .map((fstep) => {
-      //     fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-      //     return fstep.steps;
-      //   })
-      //   .reduce((a, b) => [...a, ...b], []);
 
       let _instructions = instructions;
 
       let _recipe = {
-        instructions,
         _instructions,
         analyzedInstructions,
         extendedIngredients,
@@ -128,11 +134,37 @@ export default {
     }
   },
   methods: {
-    likeClicked() {
+    async checkIfFavorite() {
+      try {
+        const response = await this.axios.get(`${this.$root.store.server_domain}/users/userfavorites`);
+        console.log("response:", response);
+        const favoriteRecipes = response.data;
+        // Log favoriteRecipes and this.recipe.id for debugging
+        console.log("Favorite Recipes:", favoriteRecipes);
+        console.log("Current Recipe ID:", this.recipeId);
+        this.like_clicked = favoriteRecipes.some(favRecipeId => favRecipeId === this.recipeId);
+      } catch (error) {
+        console.error('Error fetching favorite recipes:', error);
+      }
+    },
+    async likeClicked() {
       this.like_clicked = !this.like_clicked;
-      const response = mockAddFavorite(this.recipe.id);
-      this.toastMessage = response.response.data.message;
-      this.toastShow = true;
+      const userDetails = {
+        recipeId: this.recipeId,
+      };
+      let responseFavorites;
+      try {
+        responseFavorites = await this.axios.post(
+          `${this.$root.store.server_domain}/users/favorites`, userDetails
+        );
+        console.log("post success");
+        this.toastMessage = "Recipe successfully saved as favorite";
+        this.toastShow = true;
+      } catch (err) {
+        console.error('Error adding recipe to favorites:', err);
+        this.toastMessage = "Error adding recipe to favorites";
+        this.toastShow = true;
+      }
     },
     dismissToast() {
       this.toastShow = false;

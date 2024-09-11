@@ -1,11 +1,11 @@
 <template>
   <div class="recipe-preview">
-    <router-link :to="{ name: 'recipe', params: { recipeTitle: recipe.title, recipeId: recipe.id } }">
+    <router-link :to="{ name: 'recipe', params: { recipeTitle: recipe.title, recipeId: recipe.id, fromMyRecipes: this.isFromMyRecipes } }">
       <div class="recipe-body">
         <img :src="recipe.image" class="recipe-image" />
       </div>
       <div class="recipe-footer">
-        <div :title="recipe.title" class="recipe-title" :style="{ color: recipe.clicked ? 'blue' : '' }">
+        <div :title="recipe.title" class="recipe-title">
           {{ recipe.title }}
         </div>
         <div class="dietary-icons">
@@ -37,13 +37,11 @@
   </div>
 </template>
 
-
 <script>
 import { BToast } from 'bootstrap-vue';
-import { mockAddFavorite } from '../services/user';
 
 export default {
-  name: 'DietaryIcons',
+  name: 'RecipePreview',
   components: {
     BToast,
   },
@@ -59,17 +57,23 @@ export default {
     recipe: {
       type: Object,
       required: true
+    },
+    isFromMyRecipes: {
+      type: Boolean,
+      default: false, // Default to false for other pages
     }
   },
   async mounted() {
-    await this.fetchRecipeDetails(); 
+    if (!this.isFromMyRecipes) {
+      await this.fetchRecipeDetails(); // Fetch only if not from "My Recipes"
+    }
+    await this.checkIfFavorite();  // Check if the recipe is in the favorites
   },
   methods: {
     async fetchRecipeDetails() {
       try {
         const response = await this.axios.get(`${this.$root.store.server_domain}/recipes/previewRecipe/${this.recipe.id}`);
         const recipeData = response.data;
-        console.log("recipeData:", recipeData);
         this.recipeLikes = recipeData.aggregateLikes;
       } catch (error) {
         console.error('Error fetching recipe details:', error);
@@ -77,23 +81,32 @@ export default {
         this.toastShow = true;
       }
     },
+    async checkIfFavorite() {
+      try {
+        const response = await this.axios.get(`${this.$root.store.server_domain}/users/userfavorites`);
+        const favoriteRecipes = response.data;
+        this.like_clicked = favoriteRecipes.some(favRecipeId => favRecipeId === this.recipe.id);
+      } catch (error) {
+        console.error('Error fetching favorite recipes:', error);
+      }
+    },
     async likeClicked() {
       this.like_clicked = !this.like_clicked;
       const userDetails = {
         recipeId: this.recipe.id,
       };
+      let responseFavorites;
       try {
-        const responseFavorites = await this.axios.post(
-          this.$root.store.server_domain + "/users/favorites", userDetails
-      );
-      console.log("responseFavorites:", responseFavorites.data);
-      this.recipes = responseFavorites.data;
-    } catch (err) {
-      console.error('Error fetching favorite recipes:', err);
-    }
-      // const response = mockAddFavorite(this.recipe.id);
-      this.toastMessage = responseFavorites.data.message;
-      this.toastShow = true;
+        responseFavorites = await this.axios.post(
+          `${this.$root.store.server_domain}/users/favorites`, userDetails
+        );
+        this.toastMessage = "Recipe successfully saved as favorite";
+        this.toastShow = true;
+      } catch (err) {
+        console.error('Error adding recipe to favorites:', err);
+        this.toastMessage = "Error adding recipe to favorites";
+        this.toastShow = true;
+      }
     },
     dismissToast() {
       this.toastShow = false;

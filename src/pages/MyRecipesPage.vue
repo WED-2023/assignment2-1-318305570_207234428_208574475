@@ -3,7 +3,7 @@
     <div class="title">
       <h1>My Recipes</h1>
     </div>
-    <RecipePreviewList :recipes="recipes" />
+    <RecipePreviewList :recipes="recipes" :isFromMyRecipes="true" />
   </div>
 </template>
 
@@ -26,14 +26,13 @@ export default {
   },
   async mounted() {
     try {
-      console.log("blah",this.$root.store.server_domain)
       const response = await this.axios.get(
         this.$root.store.server_domain + "/users/myrecipes/preview"
       );
       this.recipes = response.data;
 
     } catch (err) {
-      console.error('Error fetching users recipes:', err);
+      console.error('Error fetching users recipess:', err);
     }
   },
   methods: {

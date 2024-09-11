@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2>We only learned front-end and this recipe is not in our database yet, We promise to learn backend fast, come back soon..</h2>
+    <h2>There was a problem fetching the recipe, please try again later..</h2>
     <router-link to="/" exact class="text-primary">Go back home</router-link>
   </div>
 </template>

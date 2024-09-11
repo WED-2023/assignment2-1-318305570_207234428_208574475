@@ -6,7 +6,7 @@
     </h3>
     <b-row>
       <b-col v-for="r in recipes" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" />
+        <RecipePreview class="recipePreview" :recipe="r" :isFromMyRecipes="isFromMyRecipes"/>
       </b-col>
     </b-row>
   </b-container>
@@ -26,6 +26,10 @@ export default {
       type: Array,
       required: true,
     },
+    isFromMyRecipes: {
+      type: Boolean,
+      default: false,
+    }
   },
 };
 </script>
