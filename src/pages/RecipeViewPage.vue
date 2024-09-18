@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="likes">
+        <div class="likes" v-if="!$route.params.fromMyRecipes">
             <span class="like-text">{{ recipe.aggregateLikes }}</span>
             <b-button @click.prevent="likeClicked" variant="outline" class="mb-2">
               <b-icon :icon="like_clicked ? 'heart-fill' : 'heart'" aria-hidden="true"></b-icon>
@@ -65,10 +65,14 @@ export default {
       toastShow: false,
       toastMessage: '',
       recipeLikes: 0,
+      isUserLoggedIn: false
     };
   },
   async mounted() {
-    await this.checkIfFavorite();  // Check if the recipe is in the favorites
+    this.isUserLoggedIn = this.$root.store.isAuthenticated || false;
+    if (this.isUserLoggedIn) {
+        await this.checkIfFavorite(); // Check if the recipe is in favorites
+    }
   },
   async created() {
     try {
@@ -148,6 +152,12 @@ export default {
       }
     },
     async likeClicked() {
+      // Check if the user is logged in before allowing to like
+      if (!this.isUserLoggedIn) {
+        this.toastMessage = "You must be logged in to add to favorites";
+        this.toastShow = true;
+        return; // Exit the method if the user is not logged in
+      }
       this.like_clicked = !this.like_clicked;
       const userDetails = {
         recipeId: this.recipeId,

@@ -84,6 +84,8 @@ export default {
       const response = await this.axios.post(
           this.$root.store.server_domain + "/logout" 
       );
+      sessionStorage.removeItem('searchQuery');
+      sessionStorage.removeItem('searchResults');
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
 

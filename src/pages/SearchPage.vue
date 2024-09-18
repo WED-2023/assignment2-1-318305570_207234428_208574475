@@ -45,7 +45,7 @@
     <div v-if="searchResults.length > 0">
       <RecipePreviewList :amountToFetch="resultsLimit" :recipes="searchResults" />
     </div>
-    <div v-else-if="searchResults.length === 0 && !submitError" class="mt-2">
+    <div v-else-if="searchPerformed && searchResults.length === 0 && !submitError" class="mt-2">
       <b-alert variant="info" dismissible show>
         No recipes found
       </b-alert>
@@ -89,6 +89,7 @@ export default {
       intolerances: checkedItems.Intolerances,
       diet: checkedItems.Diet,
       cuisine: checkedItems.Cuisine,
+      searchPerformed: false,
     };
   },
   created() {
@@ -163,6 +164,8 @@ export default {
       this.searchResults = response.data;
       console.log("search results:", this.searchResults);
 
+      this.searchPerformed = true;
+
       // Save the search query and results to sessionStorage
       sessionStorage.setItem('searchQuery', this.searchQuery);
       sessionStorage.setItem('searchResults', JSON.stringify(this.searchResults));
@@ -171,11 +174,6 @@ export default {
       this.submitError = err.response?.data?.message || "An error occurred during the search.";
     }
   },
-    logout() {
-      // Clear the sessionStorage on logout
-      sessionStorage.clear();
-      // Add any additional logout logic here
-    }
   },
 };
 </script>

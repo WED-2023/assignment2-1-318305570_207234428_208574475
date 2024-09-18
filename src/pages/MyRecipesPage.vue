@@ -30,6 +30,7 @@ export default {
         this.$root.store.server_domain + "/users/myrecipes/preview"
       );
       this.recipes = response.data;
+      console.log("this.recipes:", this.recipes);
 
     } catch (err) {
       console.error('Error fetching users recipess:', err);
